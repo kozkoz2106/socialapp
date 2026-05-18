@@ -1,0 +1,21 @@
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 12px 24px;
+    background-color: #18181b;
+    border-bottom: 1px solid #27272a;
+    justify-content: center;
+}
+
+.link {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.15s;
+}
+
+.link:hover {
+    color: #ffffff;
+}
