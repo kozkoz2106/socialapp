@@ -1,7 +1,7 @@
 import Navbar from "@/components/navbar";
+import ReelsScroller from "@/components/ReelsScroller";
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import styles from "./page.module.css";
 
 export default async function Matching() {
   const cookieStore = await cookies()
@@ -11,11 +11,7 @@ export default async function Matching() {
 
   return (
     <>
-      <div className={styles.container}>
-          {data.map((item) => (
-            <div className={styles.item} key={item.id}>{item.name}</div>
-          ))}
-      </div>
+      <ReelsScroller items={data ?? []} />
       <Navbar />
     </>
   )
