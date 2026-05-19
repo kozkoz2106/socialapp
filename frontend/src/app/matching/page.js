@@ -19,8 +19,8 @@ export default async function Matching() {
 
   return (
     <>
-      <ReelsScroller items={data ?? []} />
       <Navbar />
+      <ReelsScroller items={data ?? []} />
     </>
   )
 }

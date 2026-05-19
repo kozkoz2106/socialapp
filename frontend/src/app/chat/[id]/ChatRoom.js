@@ -81,11 +81,11 @@ export default function ChatRoom({ chatId, currentUserId, initialMessages }) {
                 <input
                     name="body"
                     autoComplete="off"
-                    placeholder="Message"
+                    placeholder="Type a message…"
                     className={styles.input}
                 />
-                <button type="submit" className={styles.send}>
-                    Send
+                <button type="submit" className={styles.send} aria-label="Send">
+                    →
                 </button>
             </form>
         </div>

@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation'
 
+import Avatar from '@/components/Avatar'
 import Navbar from '@/components/navbar'
+import HobbiesInput from '@/components/HobbiesInput'
 import { createClient } from '@/utils/supabase/server'
 import styles from './page.module.css'
 import { updateProfile } from './actions'
@@ -18,59 +20,85 @@ export default async function ProfilePage({ searchParams }) {
 
     const { data: profile } = await supabase
         .from('profiles')
-        .select('name, gender, degree')
+        .select('name, gender, degree, hobbies')
         .eq('id', user.id)
         .maybeSingle()
 
     return (
-        <div className={styles.pageWrapper}>
-            <div className={styles.container}>
-                <h1 className={styles.title}>Profile Details</h1>
-
-                <form action={updateProfile} className={styles.form}>
-                    <label className={styles.label} htmlFor="name">Name</label>
-                    <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        defaultValue={profile?.name ?? ''}
-                        placeholder="Your name"
-                        required
-                        className={styles.input}
-                    />
-
-                    <label className={styles.label} htmlFor="gender">Gender</label>
-                    <select
-                        id="gender"
-                        name="gender"
-                        defaultValue={profile?.gender ?? ''}
-                        className={styles.input}
-                    >
-                        <option value="">Prefer not to say</option>
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                        <option value="non-binary">Non-binary</option>
-                        <option value="other">Other</option>
-                    </select>
-
-                    <label className={styles.label} htmlFor="degree">Degree</label>
-                    <input
-                        id="degree"
-                        name="degree"
-                        type="text"
-                        defaultValue={profile?.degree ?? ''}
-                        placeholder="e.g. BSc Computer Science"
-                        className={styles.input}
-                    />
-
-                    <button type="submit" className={styles.button}>Save</button>
-
-                    {error && <p className={styles.error}>{error}</p>}
-                    {saved && !error && <p className={styles.saved}>Saved.</p>}
-                </form>
-            </div>
-
+        <div className={styles.shell}>
             <Navbar />
+
+            <main className={styles.container}>
+                <div className={styles.header}>
+                    <Avatar name={profile?.name} seed={user.id} size={64} />
+                    <div className={styles.headerText}>
+                        <p className={styles.eyebrow}>Your profile</p>
+                        <h1 className={styles.title}>
+                            {profile?.name ? `Hey, ${profile.name} 👋` : 'Set up your profile'}
+                        </h1>
+                    </div>
+                </div>
+
+                <section className={styles.card}>
+                    <form action={updateProfile} className={styles.form}>
+                        <div className={`${styles.field} ${styles.fieldWide}`}>
+                            <label className={styles.label} htmlFor="name">Name</label>
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                defaultValue={profile?.name ?? ''}
+                                placeholder="What should people call you?"
+                                required
+                                className={styles.input}
+                            />
+                        </div>
+
+                        <div className={styles.field}>
+                            <label className={styles.label} htmlFor="gender">Pronouns</label>
+                            <select
+                                id="gender"
+                                name="gender"
+                                defaultValue={profile?.gender ?? ''}
+                                className={styles.select}
+                            >
+                                <option value="">Prefer not to say</option>
+                                <option value="female">She / her</option>
+                                <option value="male">He / him</option>
+                                <option value="non-binary">They / them</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div className={styles.field}>
+                            <label className={styles.label} htmlFor="degree">Degree</label>
+                            <input
+                                id="degree"
+                                name="degree"
+                                type="text"
+                                defaultValue={profile?.degree ?? ''}
+                                placeholder="e.g. BSc Computer Science"
+                                className={styles.input}
+                            />
+                        </div>
+
+                        <h2 className={styles.sectionTitle}>Hobbies</h2>
+                        <div className={`${styles.field} ${styles.fieldWide}`}>
+                            <HobbiesInput initial={profile?.hobbies ?? []} />
+                        </div>
+
+                        <div className={styles.actions}>
+                            <div>
+                                {error && <span className={`${styles.status} ${styles.statusError}`}>{error}</span>}
+                                {saved && !error && <span className={`${styles.status} ${styles.statusSaved}`}>Saved</span>}
+                            </div>
+                            <button type="submit" className={styles.button}>
+                                Save changes
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </main>
         </div>
     )
 }

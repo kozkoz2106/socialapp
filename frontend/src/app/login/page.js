@@ -7,39 +7,57 @@ export default async function LoginPage({ searchParams }) {
     const error = params?.error
 
     return (
-        <div className={styles.container}>
-            <form className={styles.form}>
-                <h1 className={styles.title}>Login</h1>
+        <div className={styles.shell}>
+            <div className={styles.card}>
+                <div className={styles.brandRow}>
+                    <span className={styles.brandDot} aria-hidden />
+                    <span className={styles.brandText}>quad</span>
+                </div>
 
-                <label className={styles.label} htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className={styles.input}
-                />
+                <div>
+                    <h1 className={styles.title}>Welcome back 👋</h1>
+                    <p className={styles.subtitle}>Sign in to find your people.</p>
+                </div>
 
-                <label className={styles.label} htmlFor="password">Password</label>
-                <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className={styles.input}
-                />
+                <form className={styles.form}>
+                    <div className={styles.field}>
+                        <label className={styles.label} htmlFor="email">Email</label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            placeholder="you@unsw.edu.au"
+                            required
+                            className={styles.input}
+                        />
+                    </div>
 
-                <button formAction={login} className={styles.button}>Log in</button>
+                    <div className={styles.field}>
+                        <label className={styles.label} htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            autoComplete="current-password"
+                            placeholder="••••••••"
+                            required
+                            className={styles.input}
+                        />
+                    </div>
 
-                {error && <p className={styles.error}>{error}</p>}
+                    <button formAction={login} className={styles.button}>
+                        Log in
+                    </button>
+
+                    {error && <p className={styles.error}>{error}</p>}
+                </form>
 
                 <p className={styles.footer}>
-                    No account?{' '}
-                    <Link href="/signup" className={styles.link}>Sign up</Link>
+                    New here?{' '}
+                    <Link href="/signup" className={styles.link}>Create an account</Link>
                 </p>
-            </form>
+            </div>
         </div>
     )
 }
