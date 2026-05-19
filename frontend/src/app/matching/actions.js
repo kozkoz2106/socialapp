@@ -32,3 +32,22 @@ export async function connectWithUser(otherUserId) {
     revalidatePath('/chat')
     redirect('/chat')
 }
+
+export async function dismissUser(otherUserId) {
+    const supabase = await createClient()
+
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+        redirect('/login')
+    }
+
+    if (!otherUserId || otherUserId === user.id) {
+        return
+    }
+
+    await supabase
+        .from('dismissals')
+        .upsert({ user_id: user.id, dismissed_id: otherUserId })
+
+    revalidatePath('/matching')
+}
