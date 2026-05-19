@@ -23,50 +23,52 @@ export default async function ProfilePage({ searchParams }) {
         .maybeSingle()
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles.title}>Main Profile</h1>
+        <div className={styles.pageWrapper}>
+            <div className={styles.container}>
+                <h1 className={styles.title}>Main Profile</h1>
 
-            <form action={updateProfile} className={styles.form}>
-                <label className={styles.label} htmlFor="name">Name</label>
-                <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    defaultValue={profile?.name ?? ''}
-                    placeholder="Your name"
-                    required
-                    className={styles.input}
-                />
+                <form action={updateProfile} className={styles.form}>
+                    <label className={styles.label} htmlFor="name">Name</label>
+                    <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        defaultValue={profile?.name ?? ''}
+                        placeholder="Your name"
+                        required
+                        className={styles.input}
+                    />
 
-                <label className={styles.label} htmlFor="gender">Gender</label>
-                <select
-                    id="gender"
-                    name="gender"
-                    defaultValue={profile?.gender ?? ''}
-                    className={styles.input}
-                >
-                    <option value="">Prefer not to say</option>
-                    <option value="female">Female</option>
-                    <option value="male">Male</option>
-                    <option value="non-binary">Non-binary</option>
-                    <option value="other">Other</option>
-                </select>
+                    <label className={styles.label} htmlFor="gender">Gender</label>
+                    <select
+                        id="gender"
+                        name="gender"
+                        defaultValue={profile?.gender ?? ''}
+                        className={styles.input}
+                    >
+                        <option value="">Prefer not to say</option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="non-binary">Non-binary</option>
+                        <option value="other">Other</option>
+                    </select>
 
-                <label className={styles.label} htmlFor="degree">Degree</label>
-                <input
-                    id="degree"
-                    name="degree"
-                    type="text"
-                    defaultValue={profile?.degree ?? ''}
-                    placeholder="e.g. BSc Computer Science"
-                    className={styles.input}
-                />
+                    <label className={styles.label} htmlFor="degree">Degree</label>
+                    <input
+                        id="degree"
+                        name="degree"
+                        type="text"
+                        defaultValue={profile?.degree ?? ''}
+                        placeholder="e.g. BSc Computer Science"
+                        className={styles.input}
+                    />
 
-                <button type="submit" className={styles.button}>Save</button>
+                    <button type="submit" className={styles.button}>Save</button>
 
-                {error && <p className={styles.error}>{error}</p>}
-                {saved && !error && <p className={styles.saved}>Saved.</p>}
-            </form>
+                    {error && <p className={styles.error}>{error}</p>}
+                    {saved && !error && <p className={styles.saved}>Saved.</p>}
+                </form>
+            </div>
 
             <Navbar />
         </div>

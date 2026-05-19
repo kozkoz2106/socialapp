@@ -1,5 +1,5 @@
 .container {
-  padding: 24px;
+  padding: 24px 40px;
   padding-bottom: 80px;
   max-width: 600px;
   margin: 0 auto;
@@ -19,10 +19,11 @@
 
 .input,
 .textarea {
-  padding: 10px;
-  border: 1px solid #27272a;
+  padding: 10px 75px;
+  border: 1px solid #555555;
+  width: 100%;
   border-radius: 8px;
-  background: #0a0a0a;
+  background: #000000;
   color: white;
   font-size: 14px;
 }
@@ -45,11 +46,11 @@
 
 .button {
   margin-top: 12px;
-  padding: 10px;
+  padding: 40px 30px;
   border: none;
   border-radius: 8px;
   background: white;
-  color: black;
+  color: rgb(0, 0, 0);
   font-weight: 600;
   cursor: pointer;
   transition: 0.15s ease;
@@ -113,7 +114,7 @@
   cursor: pointer;
   overflow: hidden;
   transition: 0.15s ease;
-  background: #0a0a0a;
+  background: #646363;
 }
 
 .pfpCircle:hover {
@@ -130,4 +131,21 @@
 .plus {
   font-size: 28px;
   color: #a1a1aa;
+}
+
+.pageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+.pageWrapper :global(nav),
+.pageWrapper > div:last-child {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
 }

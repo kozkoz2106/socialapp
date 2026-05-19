@@ -10,7 +10,7 @@ export default function ReelsScroller({ items }) {
           <div className={styles.content}>
             <h2 className={styles.name}>{item.name}</h2>
             {Object.entries(item)
-              .filter(([key]) => key !== "id" && key !== "name")
+              .filter(([key]) => key !== "id" && key !== "name" && key !== "created_at")
               .map(([key, value]) => (
                 <p key={key} className={styles.field}>
                   <span className={styles.label}>{key}</span>
