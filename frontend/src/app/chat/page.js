@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
+import Avatar from "@/components/Avatar";
 import Navbar from "@/components/navbar";
 import { createClient } from '@/utils/supabase/server'
 import styles from "./page.module.css";
@@ -28,33 +29,55 @@ export default async function Chat() {
         : { data: [] }
 
     const nameById = new Map((profiles ?? []).map((p) => [p.id, p.name]))
+    const count = chats?.length ?? 0
 
     return (
-        <>
-            <div className={styles.container}>
-                <h1 className={styles.title}>Chats</h1>
-                {(!chats || chats.length === 0) ? (
-                    <p className={styles.empty}>
-                        No chats yet. Connect with someone on the matching page.
-                    </p>
+        <div className={styles.shell}>
+            <Navbar />
+
+            <main className={styles.container}>
+                <header className={styles.header}>
+                    <div>
+                        <p className={styles.eyebrow}>Inbox</p>
+                        <h1 className={styles.title}>Chats</h1>
+                    </div>
+                    {count > 0 && (
+                        <span className={styles.countPill}>{count} active</span>
+                    )}
+                </header>
+
+                {count === 0 ? (
+                    <section className={styles.empty}>
+                        <span className={styles.emptyEmoji}>💬</span>
+                        <h2 className={styles.emptyTitle}>No chats yet</h2>
+                        <p className={styles.emptyText}>
+                            Tap Connect on someone you like in Discover, and your chat will appear here.
+                        </p>
+                        <Link href="/matching" className={styles.emptyLink}>
+                            Discover people →
+                        </Link>
+                    </section>
                 ) : (
                     <ul className={styles.list}>
                         {chats.map((c) => {
                             const otherId = c.user_a === user.id ? c.user_b : c.user_a
+                            const name = nameById.get(otherId) ?? 'Unknown'
                             return (
                                 <li key={c.id}>
                                     <Link href={`/chat/${c.id}`} className={styles.item}>
-                                        <span className={styles.name}>
-                                            {nameById.get(otherId) ?? 'Unknown'}
-                                        </span>
+                                        <Avatar name={name} seed={otherId} size={44} />
+                                        <div className={styles.text}>
+                                            <span className={styles.name}>{name}</span>
+                                            <span className={styles.subtitle}>Tap to open</span>
+                                        </div>
+                                        <span className={styles.arrow}>→</span>
                                     </Link>
                                 </li>
                             )
                         })}
                     </ul>
                 )}
-            </div>
-            <Navbar />
-        </>
+            </main>
+        </div>
     )
 }

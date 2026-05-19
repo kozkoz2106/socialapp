@@ -1,16 +1,48 @@
+'use client'
+
 import Link from "next/link";
-import styles from "./navbar.module.css";
+import { usePathname } from "next/navigation";
+
 import { signOut } from "@/app/login/actions";
+import styles from "./navbar.module.css";
+
+const links = [
+    { href: "/", label: "Profile" },
+    { href: "/matching", label: "Discover" },
+    { href: "/chat", label: "Chats" },
+]
 
 export default function Navbar() {
+    const pathname = usePathname()
+
     return (
-        <nav className={styles.nav}>
-            <Link href="/" className={styles.link}>Main Profile</Link>
-            <Link href="/matching" className={styles.link}>Matching</Link>
-            <Link href="/chat" className={styles.link}>Chat</Link>
-            <form action={signOut}>
-                <button type="submit" className={styles.signOut}>Sign out</button>
+        <header className={styles.bar}>
+            <Link href="/" className={styles.brand} aria-label="Quad — home">
+                <span className={styles.brandDot} aria-hidden />
+                <span className={styles.brandText}>quad</span>
+            </Link>
+
+            <nav className={styles.nav}>
+                {links.map((l) => {
+                    const active = pathname === l.href ||
+                        (l.href !== "/" && pathname.startsWith(l.href))
+                    return (
+                        <Link
+                            key={l.href}
+                            href={l.href}
+                            className={`${styles.link} ${active ? styles.linkActive : ""}`}
+                        >
+                            {l.label}
+                        </Link>
+                    )
+                })}
+            </nav>
+
+            <form action={signOut} className={styles.signOutForm}>
+                <button type="submit" className={styles.signOut}>
+                    Sign out
+                </button>
             </form>
-        </nav>
+        </header>
     )
 }

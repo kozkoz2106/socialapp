@@ -1,43 +1,121 @@
+.bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    padding: 14px 24px;
+    background: rgba(246, 245, 241, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.03em;
+    transition: 0.18s var(--ease);
+}
+
+.brand:hover {
+    transform: translateY(-1px);
+}
+
+.brandDot {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50% 50% 50% 6px;
+    background: var(--primary);
+    transform: rotate(-15deg);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.brandText {
+    font-size: 22px;
+}
+
 .nav {
     display: flex;
     align-items: center;
-    gap: 24px;
-    padding: 12px 24px;
-    background-color: #18181b;
-    border-top: 1px solid #27272a;
-    justify-content: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    height: 60px;
+    gap: 4px;
+    padding: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
 }
 
 .link {
-    color: #a1a1aa;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
     text-decoration: none;
+    color: var(--muted);
     font-size: 14px;
-    font-weight: 500;
-    transition: color 0.15s;
+    font-weight: 600;
+    transition: 0.18s var(--ease);
 }
 
 .link:hover {
-    color: #ffffff;
+    color: var(--ink);
+}
+
+.linkActive {
+    background: var(--ink);
+    color: var(--surface);
+}
+
+.linkActive:hover {
+    color: var(--surface);
+}
+
+.signOutForm {
+    justify-self: end;
 }
 
 .signOut {
-    background: none;
-    border: none;
-    padding: 0;
-    color: #a1a1aa;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-    transition: color 0.15s;
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.18s var(--ease);
 }
 
 .signOut:hover {
-    color: #ffffff;
+    color: var(--ink);
+    border-color: var(--border-strong);
+    background: var(--surface);
+}
+
+@media (max-width: 720px) {
+    .bar {
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        gap: 10px;
+        padding: 12px 16px;
+    }
+    .brand { grid-column: 1 / 2; }
+    .signOutForm { grid-column: 2 / 3; grid-row: 1; }
+    .nav {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-self: stretch;
+        justify-content: space-around;
+    }
+    .link {
+        flex: 1;
+        text-align: center;
+        font-size: 13px;
+    }
 }

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
-import Navbar from '@/components/navbar'
+import Avatar from '@/components/Avatar'
 import { createClient } from '@/utils/supabase/server'
 import ChatRoom from './ChatRoom'
 import styles from './page.module.css'
@@ -18,7 +18,7 @@ export default async function ChatDetail({ params }) {
 
     const { data: chat } = await supabase
         .from('chats')
-        .select('id, user_a, user_b')
+        .select('id, user_a, user_b, created_at')
         .eq('id', id)
         .maybeSingle()
 
@@ -37,20 +37,22 @@ export default async function ChatDetail({ params }) {
             .order('created_at', { ascending: true }),
     ])
 
+    const name = otherProfile?.name ?? 'Unknown'
+
     return (
-        <div className={styles.container}>
+        <div className={styles.shell}>
             <header className={styles.header}>
-                <Link href="/chat" className={styles.back}>
-                    ←
-                </Link>
-                <h1 className={styles.title}>{otherProfile?.name ?? 'Chat'}</h1>
+                <Link href="/chat" className={styles.back} aria-label="Back">←</Link>
+                <Avatar name={name} seed={otherId} size={40} />
+                <div className={styles.titleWrap}>
+                    <span className={styles.title}>{name}</span>
+                </div>
             </header>
             <ChatRoom
                 chatId={id}
                 currentUserId={user.id}
                 initialMessages={messages ?? []}
             />
-            <Navbar />
         </div>
     )
 }
