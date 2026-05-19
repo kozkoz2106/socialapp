@@ -11,11 +11,11 @@ export default async function SignupPage({ searchParams }) {
             <div className={styles.card}>
                 <div className={styles.brandRow}>
                     <span className={styles.brandDot} aria-hidden />
-                    <span className={styles.brandText}>quad</span>
+                    <span className={styles.brandText}>FriendLink</span>
                 </div>
 
                 <div>
-                    <h1 className={styles.title}>Join Quad ✨</h1>
+                    <h1 className={styles.title}>Join FriendLink ✨</h1>
                     <p className={styles.subtitle}>Make friends on campus, the easy way.</p>
                 </div>
 

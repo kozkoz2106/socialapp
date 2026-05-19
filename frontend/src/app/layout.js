@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Quad — find your people",
+  title: "FriendLink — find your people",
   description: "Make friends at UNSW.",
 };
 

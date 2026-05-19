@@ -18,9 +18,9 @@ export default function Navbar() {
 
     return (
         <header className={styles.bar}>
-            <Link href="/" className={styles.brand} aria-label="Quad — home">
+            <Link href="/" className={styles.brand} aria-label="FriendLink — home">
                 <span className={styles.brandDot} aria-hidden />
-                <span className={styles.brandText}>quad</span>
+                <span className={styles.brandText}>FriendLink</span>
             </Link>
 
             <nav className={styles.nav}>

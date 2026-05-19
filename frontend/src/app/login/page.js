@@ -11,7 +11,7 @@ export default async function LoginPage({ searchParams }) {
             <div className={styles.card}>
                 <div className={styles.brandRow}>
                     <span className={styles.brandDot} aria-hidden />
-                    <span className={styles.brandText}>quad</span>
+                    <span className={styles.brandText}>FriendLink</span>
                 </div>
 
                 <div>
