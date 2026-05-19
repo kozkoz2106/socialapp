@@ -24,10 +24,51 @@
   border-radius: 8px;
   background: #0a0a0a;
   color: white;
+  font-size: 14px;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #a1a1aa;
 }
 
 .textarea {
   min-height: 120px;
+}
+
+.label {
+  font-size: 13px;
+  color: #a1a1aa;
+  margin-top: 4px;
+}
+
+.button {
+  margin-top: 12px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.button:hover:not(:disabled) {
+  transform: scale(1.01);
+}
+
+.error {
+  margin: 0;
+  font-size: 13px;
+  color: #f87171;
+}
+
+.saved {
+  margin: 0;
+  font-size: 13px;
+  color: #4ade80;
 }
 
 .pfp {

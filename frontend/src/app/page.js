@@ -1,103 +1,74 @@
-"use client";
+import { redirect } from 'next/navigation'
 
-import { useState } from "react";
-import styles from "./page.module.css";
-import Navbar from "@/components/navbar";
+import Navbar from '@/components/navbar'
+import { createClient } from '@/utils/supabase/server'
+import styles from './page.module.css'
+import { updateProfile } from './actions'
 
-export default function ProfileEditor() {
-  const [profile, setProfile] = useState({
-    name: "",
-    tags: ["", "", "", "", ""],
-    pfpFile: null,
-  });
+export default async function ProfilePage({ searchParams }) {
+    const params = await searchParams
+    const error = params?.error
+    const saved = params?.saved
 
-  const [preview, setPreview] = useState(null);
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+        redirect('/login')
+    }
 
-  function handleName(e) {
-    setProfile((prev) => ({ ...prev, name: e.target.value }));
-  }
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('name, gender, degree')
+        .eq('id', user.id)
+        .maybeSingle()
 
-  function handleTagChange(index, value) {
-    const updated = [...profile.tags];
-    updated[index] = value;
+    return (
+        <div className={styles.container}>
+            <h1 className={styles.title}>Main Profile</h1>
 
-    setProfile((prev) => ({ ...prev, tags: updated }));
-  }
+            <form action={updateProfile} className={styles.form}>
+                <label className={styles.label} htmlFor="name">Name</label>
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    defaultValue={profile?.name ?? ''}
+                    placeholder="Your name"
+                    required
+                    className={styles.input}
+                />
 
-  function handleImage(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+                <label className={styles.label} htmlFor="gender">Gender</label>
+                <select
+                    id="gender"
+                    name="gender"
+                    defaultValue={profile?.gender ?? ''}
+                    className={styles.input}
+                >
+                    <option value="">Prefer not to say</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="non-binary">Non-binary</option>
+                    <option value="other">Other</option>
+                </select>
 
-    setProfile((prev) => ({ ...prev, pfpFile: file }));
-    setPreview(URL.createObjectURL(file));
-  }
+                <label className={styles.label} htmlFor="degree">Degree</label>
+                <input
+                    id="degree"
+                    name="degree"
+                    type="text"
+                    defaultValue={profile?.degree ?? ''}
+                    placeholder="e.g. BSc Computer Science"
+                    className={styles.input}
+                />
 
-  function handleSubmit(e) {
-    e.preventDefault();
+                <button type="submit" className={styles.button}>Save</button>
 
-    const cleaned = {
-      name: profile.name,
-      tags: profile.tags.filter((t) => t.trim() !== ""),
-      pfpFile: profile.pfpFile,
-    };
+                {error && <p className={styles.error}>{error}</p>}
+                {saved && !error && <p className={styles.saved}>Saved.</p>}
+            </form>
 
-  }
-
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Main Profile</h1>
-
-      <form onSubmit={handleSubmit} className={styles.form}>
-        {/* PROFILE PICTURE */}
-        <div className={styles.pfpWrapper}>
-          <input
-            id="pfp-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleImage}
-            className={styles.hiddenInput}
-          />
-
-          <label htmlFor="pfp-upload" className={styles.pfpCircle}>
-            {preview ? (
-              <img src={preview} className={styles.pfpImage} />
-            ) : (
-              <span className={styles.plus}>+</span>
-            )}
-          </label>
+            <Navbar />
         </div>
-
-        {/* NAME */}
-        <label className={styles.label}>Name</label>
-        <input
-          value={profile.name}
-          onChange={handleName}
-          className={styles.input}
-          placeholder="Your name"
-        />
-
-        {/* TAGS */}
-        <label className={styles.label}>Tags (max 5)</label>
-
-        <div className={styles.tags}>
-          {profile.tags.map((tag, i) => (
-            <input
-              key={i}
-              value={tag}
-              onChange={(e) => handleTagChange(i, e.target.value)}
-              className={styles.tagInput}
-              placeholder={`Tag ${i + 1}`}
-              maxLength={20}
-            />
-          ))}
-        </div>
-
-        {/* SAVE */}
-        <button type="submit" className={styles.button}>
-          Save
-        </button>
-      </form>
-      <Navbar />
-    </div>
-  );
+    )
 }
