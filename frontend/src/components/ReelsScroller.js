@@ -76,7 +76,7 @@ export default function ReelsScroller({ items }) {
 
               <div className={styles.avatarWrap}>
                 <div className={styles.avatarRing}>
-                  <Avatar name={item.name} seed={item.id} size={86} />
+                  <Avatar name={item.name} seed={item.id} size={86} avatarUrl={item.avatar_url} />
                 </div>
                 <span className={styles.indexBadge}>
                   {i + 1} of {items.length}

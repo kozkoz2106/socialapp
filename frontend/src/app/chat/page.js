@@ -25,10 +25,10 @@ export default async function Chat() {
     )
 
     const { data: profiles } = otherIds.length
-        ? await supabase.from('profiles').select('id, name').in('id', otherIds)
+        ? await supabase.from('profiles').select('id, name, avatar_url').in('id', otherIds)
         : { data: [] }
 
-    const nameById = new Map((profiles ?? []).map((p) => [p.id, p.name]))
+    const profileById = new Map((profiles ?? []).map((p) => [p.id, p]))
     const count = chats?.length ?? 0
 
     return (
@@ -61,13 +61,13 @@ export default async function Chat() {
                     <ul className={styles.list}>
                         {chats.map((c) => {
                             const otherId = c.user_a === user.id ? c.user_b : c.user_a
-                            const name = nameById.get(otherId) ?? 'Unknown'
+                            const other = profileById.get(otherId)
                             return (
                                 <li key={c.id}>
                                     <Link href={`/chat/${c.id}`} className={styles.item}>
-                                        <Avatar name={name} seed={otherId} size={44} />
+                                        <Avatar name={other?.name} seed={otherId} size={44} avatarUrl={other?.avatar_url} />
                                         <div className={styles.text}>
-                                            <span className={styles.name}>{name}</span>
+                                            <span className={styles.name}>{other?.name ?? 'Unknown'}</span>
                                             <span className={styles.subtitle}>Tap to open</span>
                                         </div>
                                         <span className={styles.arrow}>→</span>

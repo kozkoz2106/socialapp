@@ -18,27 +18,42 @@ function hash(str) {
     return Math.abs(h)
 }
 
-export default function Avatar({ name, seed, size = 48 }) {
+export default function Avatar({ name, seed, size = 48, avatarUrl }) {
     const display = (name || '?').trim()
     const initial = display.charAt(0).toUpperCase() || '?'
     const idx = hash(seed ?? display) % PALETTES.length
     const [a, b] = PALETTES[idx]
+
+    const base = {
+        width: size,
+        height: size,
+        borderRadius: '50%',
+        flexShrink: 0,
+        boxShadow: '0 4px 12px rgba(15, 15, 20, 0.08)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+
+    if (avatarUrl) {
+        return (
+            <img
+                src={avatarUrl}
+                alt={display}
+                style={{ ...base, objectFit: 'cover' }}
+            />
+        )
+    }
+
     return (
         <span
             style={{
-                width: size,
-                height: size,
-                borderRadius: '50%',
+                ...base,
                 background: `linear-gradient(135deg, ${a} 0%, ${b} 100%)`,
                 color: 'white',
                 fontWeight: 700,
                 fontSize: size * 0.4,
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
                 letterSpacing: '-0.02em',
-                boxShadow: '0 4px 12px rgba(15, 15, 20, 0.08)',
             }}
             aria-hidden
         >

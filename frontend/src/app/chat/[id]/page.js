@@ -29,7 +29,7 @@ export default async function ChatDetail({ params }) {
     const otherId = chat.user_a === user.id ? chat.user_b : chat.user_a
 
     const [{ data: otherProfile }, { data: messages }] = await Promise.all([
-        supabase.from('profiles').select('name').eq('id', otherId).maybeSingle(),
+        supabase.from('profiles').select('name, avatar_url').eq('id', otherId).maybeSingle(),
         supabase
             .from('messages')
             .select('id, sender_id, body, created_at')
@@ -43,7 +43,7 @@ export default async function ChatDetail({ params }) {
         <div className={styles.shell}>
             <header className={styles.header}>
                 <Link href="/chat" className={styles.back} aria-label="Back">←</Link>
-                <Avatar name={name} seed={otherId} size={40} />
+                <Avatar name={name} seed={otherId} size={40} avatarUrl={otherProfile?.avatar_url} />
                 <div className={styles.titleWrap}>
                     <span className={styles.title}>{name}</span>
                 </div>

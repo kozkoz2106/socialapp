@@ -20,7 +20,7 @@ export default async function ProfilePage({ searchParams }) {
 
     const { data: profile } = await supabase
         .from('profiles')
-        .select('name, gender, degree, hobbies')
+        .select('name, gender, degree, hobbies, avatar_url')
         .eq('id', user.id)
         .maybeSingle()
 
@@ -30,7 +30,10 @@ export default async function ProfilePage({ searchParams }) {
 
             <main className={styles.container}>
                 <div className={styles.header}>
-                    <Avatar name={profile?.name} seed={user.id} size={64} />
+                    <label htmlFor="avatarInput" className={styles.avatarLabel}>
+                        <Avatar name={profile?.name} seed={user.id} size={64} avatarUrl={profile?.avatar_url} />
+                        <span className={styles.avatarEdit}>Edit</span>
+                    </label>
                     <div className={styles.headerText}>
                         <p className={styles.eyebrow}>Your profile</p>
                         <h1 className={styles.title}>
@@ -41,6 +44,9 @@ export default async function ProfilePage({ searchParams }) {
 
                 <section className={styles.card}>
                     <form action={updateProfile} className={styles.form}>
+                        <input type="hidden" name="existing_avatar_url" value={profile?.avatar_url ?? ''} />
+                        <input id="avatarInput" name="avatar" type="file" accept="image/*" className={styles.hiddenInput} />
+
                         <div className={`${styles.field} ${styles.fieldWide}`}>
                             <label className={styles.label} htmlFor="name">Name</label>
                             <input
