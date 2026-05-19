@@ -8,6 +8,7 @@ export default function Navbar() {
             <Link href="/" className={styles.link}>Main Profile</Link>
             <Link href="/matching" className={styles.link}>Matching</Link>
             <Link href="/chat" className={styles.link}>Chat</Link>
+            <Link href="/mbti" className={styles.link}>MBTI</Link>
             <form action={signOut}>
                 <button type="submit" className={styles.signOut}>Sign out</button>
             </form>

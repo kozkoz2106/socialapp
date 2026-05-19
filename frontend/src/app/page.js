@@ -25,7 +25,7 @@ export default async function ProfilePage({ searchParams }) {
     return (
         <div className={styles.pageWrapper}>
             <div className={styles.container}>
-                <h1 className={styles.title}>Main Profile</h1>
+                <h1 className={styles.title}>Profile Details</h1>
 
                 <form action={updateProfile} className={styles.form}>
                     <label className={styles.label} htmlFor="name">Name</label>

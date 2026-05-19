@@ -1,25 +1,34 @@
 "use client";
 
+import { connectWithUser } from "@/app/matching/actions";
 import styles from "./ReelsScroller.module.css";
 
 export default function ReelsScroller({ items }) {
   return (
     <div className={styles.feed}>
-      {items.map((item) => (
-        <div className={styles.card} key={item.id}>
-          <div className={styles.content}>
-            <h2 className={styles.name}>{item.name}</h2>
-            {Object.entries(item)
-              .filter(([key]) => key !== "id" && key !== "name" && key !== "created_at")
-              .map(([key, value]) => (
-                <p key={key} className={styles.field}>
-                  <span className={styles.label}>{key}</span>
-                  {String(value ?? "")}
-                </p>
-              ))}
+      {items.map((item) => {
+        const connect = connectWithUser.bind(null, item.id);
+        return (
+          <div className={styles.card} key={item.id}>
+            <div className={styles.content}>
+              <h2 className={styles.name}>{item.name}</h2>
+              {Object.entries(item)
+                .filter(([key]) => key !== "id" && key !== "name" && key != "created_at")
+                .map(([key, value]) => (
+                  <p key={key} className={styles.field}>
+                    <span className={styles.label}>{key}</span>
+                    {String(value ?? "")}
+                  </p>
+                ))}
+              <form action={connect}>
+                <button type="submit" className={styles.connect}>
+                  Connect
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
