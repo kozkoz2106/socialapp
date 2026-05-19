@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 
 import Navbar from '@/components/navbar'
+import HobbiesInput from '@/components/HobbiesInput'
 import { createClient } from '@/utils/supabase/server'
 import styles from './page.module.css'
 import { updateProfile } from './actions'
@@ -18,7 +19,7 @@ export default async function ProfilePage({ searchParams }) {
 
     const { data: profile } = await supabase
         .from('profiles')
-        .select('name, gender, degree')
+        .select('name, gender, degree, hobbies')
         .eq('id', user.id)
         .maybeSingle()
 
@@ -61,6 +62,9 @@ export default async function ProfilePage({ searchParams }) {
                     placeholder="e.g. BSc Computer Science"
                     className={styles.input}
                 />
+
+                <label className={styles.label} htmlFor="hobbies">Hobbies</label>
+                <HobbiesInput initial={profile?.hobbies ?? []} />
 
                 <button type="submit" className={styles.button}>Save</button>
 
